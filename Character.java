@@ -20,5 +20,9 @@ public abstract class Character implements Killable {
 		if (this.hp < 0)
 			this.hp = 0;
 	}
+	
+	public String getStatus() {
+		return this.hp + "/" + this.maxhp + " HP";
+	}
 
 }
