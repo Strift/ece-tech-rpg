@@ -2,7 +2,7 @@
 public class Warrior extends Character {
 	
 	public Warrior() {
-		super(200);
+		super(200, 100);
 	}
 
 	@Override

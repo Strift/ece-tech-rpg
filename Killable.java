@@ -1,7 +1,7 @@
 
 public interface Killable {
 
-	public Boolean isDead();
+	public boolean isDead();
 	
 	public void receiveDamage(int damage);
 }
