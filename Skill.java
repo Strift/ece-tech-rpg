@@ -7,9 +7,18 @@ public class Skill {
 	private boolean hitsCaster;
 	private boolean hitsEnemy;
 	
-	public Skill(String name, int mpCost) {
-		this.setName(name);
-		this.setMpCost(mpCost);
+	public Skill(String name, int mpCost, int damage) {
+		this.name = name;
+		this.mpCost = mpCost;
+		this.damage = damage;
+		this.hitsCaster = false;
+		this.hitsEnemy = true;
+	}
+	
+	public Skill(String name, int mpCost, int damage, boolean hitsCaster, boolean hitsEnemy) {
+		this(name, mpCost, damage);
+		this.hitsCaster = hitsCaster;
+		this.hitsEnemy = hitsEnemy;
 	}
 
 	public int getDamage() {
