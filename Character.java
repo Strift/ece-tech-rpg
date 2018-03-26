@@ -63,5 +63,16 @@ public abstract class Character implements Killable, UsesSkills {
 			this.mp = 0;
 		}
 	}
+	
+	public int getNbSkills() {
+		return this.nbSkills;
+	}
+	
+	public Skill getSkill(int indice) {
+		if (indice >= 0 && indice < this.nbSkills) {
+			return this.skills[indice];
+		}
+		return null;
+	}
 
 }

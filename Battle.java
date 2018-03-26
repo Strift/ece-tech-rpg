@@ -11,9 +11,9 @@ public class Battle {
 		this.enemy = enemy;
 		this.turns = 0;
 	}
-	
+
+	@SuppressWarnings("resource") // Supprime le warning affiché par Eclipse à cause du scanner.close() manquant
 	public int menu() {
-		@SuppressWarnings("resource") // Supprime le warning affiché par Eclipse à cause du scanner.close() manquant
 		Scanner scanner = new Scanner(System.in);
 		int choice = 0;
 		
@@ -27,6 +27,35 @@ public class Battle {
 		// Pas de scanner.close(), car cela fermerait le flux d'entrée System.in
 		
 		return choice;
+	}
+	
+	@SuppressWarnings("resource") // Supprime le warning affiché par Eclipse à cause du scanner.close() manquant
+	public Skill skillMenu(Character character) {
+		int choice = 0;
+		int nbSkills = character.getNbSkills();
+		Scanner scanner = new Scanner(System.in);
+		
+		// Tant que le choix de l'utilisateur n'est pas compris entre 1 et nbSkills+1
+		do {
+			// On affiche toutes les compétences du personnage
+			System.out.println("Que faire ?");
+			for (int i = 0; i < nbSkills; i++) {
+				System.out.println("\n" + (i+1) + ". " + character.getSkill(i).getName());
+			}
+			// On affiche le choix 'Retour'
+			System.out.println("\n" + (nbSkills+1) + ". Retour");
+			// On demande à l'utilisateur de saisir un nombre
+			if (scanner.hasNextInt()) {
+				choice = scanner.nextInt();	
+			}
+		} while(choice < 1 || choice > (nbSkills+1));
+		// Pas de scanner.close(), car cela fermerait le flux d'entrée System.in
+		
+		// On retourne le Skill choisi, ou null si 'Retour'
+		if (choice == (nbSkills+1)) {
+			return null;
+		}
+		return character.getSkill(choice);
 	}
 	
 	public void run() {
