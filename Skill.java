@@ -4,6 +4,7 @@ public class Skill {
 	private String name;
 	private int mpCost;
 	private int damage;
+	private int mpDamage;
 	private boolean hitsCaster;
 	private boolean hitsEnemy;
 	
@@ -29,36 +30,28 @@ public class Skill {
 		this.damage = damage;
 	}
 
-	public boolean hitsCaster() {
-		return hitsCaster;
+	public int getMpDamage() {
+		return mpDamage;
 	}
 
-	public void setHitsCaster(boolean hitsCaster) {
-		this.hitsCaster = hitsCaster;
+	public void setMpDamage(int mpDamage) {
+		this.mpDamage = mpDamage;
+	}
+
+	public boolean hitsCaster() {
+		return hitsCaster;
 	}
 
 	public boolean hitsEnemy() {
 		return hitsEnemy;
 	}
 
-	public void setHitsEnemy(boolean hitsEnemy) {
-		this.hitsEnemy = hitsEnemy;
-	}
-
 	public int getMpCost() {
 		return mpCost;
 	}
 
-	public void setMpCost(int mpCost) {
-		this.mpCost = mpCost;
-	}
-
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 	
 }

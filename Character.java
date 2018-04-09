@@ -33,8 +33,15 @@ public abstract class Character implements Killable, UsesSkills {
 		}
 	}
 	
+	public void receiveMpDamage(int damage) {
+		this.mp = this.mp - damage;
+		if (this.mp < 0) {
+			this.mp = 0;
+		}
+	}
+	
 	public String getStatus() {
-		return this.hp + "/" + this.maxHp + " HP";
+		return this.hp + "/" + this.maxHp + " HP\t" + this.mp + "/" + this.maxMp + " MP";
 	}
 	
 	@Override
@@ -49,9 +56,11 @@ public abstract class Character implements Killable, UsesSkills {
 	public void cast(Skill skill, Character enemy) {
 		if (skill.hitsCaster()) {
 			this.receiveDamage(skill.getDamage());
+			this.receiveMpDamage(skill.getMpDamage());
 		}
 		if (skill.hitsEnemy()) {
 			enemy.receiveDamage(skill.getDamage());
+			enemy.receiveMpDamage(skill.getMpDamage());
 		}
 		this.consumeMp(skill);
 	}
@@ -64,10 +73,12 @@ public abstract class Character implements Killable, UsesSkills {
 		}
 	}
 	
+	@Override
 	public int getNbSkills() {
 		return this.nbSkills;
 	}
 	
+	@Override
 	public Skill getSkill(int indice) {
 		if (indice >= 0 && indice < this.nbSkills) {
 			return this.skills[indice];

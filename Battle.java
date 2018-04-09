@@ -19,7 +19,7 @@ public class Battle {
 		
 		// Tant que le choix de l'utilisateur n'est pas compris entre 1 et 3
 		do {
-			System.out.println("Que faire ?\n1. Attaquer\n2. Objets\n3. Défense\nEntrez votre choix...");
+			System.out.println("Menu\n 1. Attaquer\n 2. Compétences\n 3. Défense\nEntrez votre choix...");
 			if (scanner.hasNextInt()) {
 				choice = scanner.nextInt();	
 			}
@@ -38,12 +38,13 @@ public class Battle {
 		// Tant que le choix de l'utilisateur n'est pas compris entre 1 et nbSkills+1
 		do {
 			// On affiche toutes les compétences du personnage
-			System.out.println("Que faire ?");
+			System.out.println("Compétences");
 			for (int i = 0; i < nbSkills; i++) {
-				System.out.println("\n" + (i+1) + ". " + character.getSkill(i).getName());
+				Skill skill = character.getSkill(i);
+				System.out.println(" " + (i+1) + ". " + skill.getName() + "\t(" + skill.getMpCost() + " MP)");
 			}
 			// On affiche le choix 'Retour'
-			System.out.println("\n" + (nbSkills+1) + ". Retour");
+			System.out.println((nbSkills+1) + ". Retour");
 			// On demande à l'utilisateur de saisir un nombre
 			if (scanner.hasNextInt()) {
 				choice = scanner.nextInt();	
@@ -55,42 +56,70 @@ public class Battle {
 		if (choice == (nbSkills+1)) {
 			return null;
 		}
-		return character.getSkill(choice);
+		return character.getSkill(choice-1);
 	}
 	
 	public void run() {
-		// Représente le personnage qui prendra les dégâts ce tour ci
-		Character defender = null;
+		// Représente à tour de rôle l'un et l'autre des personnages
+		Character attacker = null, defender = null;
 		
 		// Tant qu'au moins un des deux héros est vivant
-		while(hero.isDead() == false && enemy.isDead() == false) {	
+		while(hero.isDead() == false && enemy.isDead() == false) {
+			// Affichage du statut des combatttants
+			this.printStatuses();
+			// On regarde c'est le tour de qui
 			if (this.turns%2 == 0) {
+				attacker = hero;
 				defender = enemy;
 				System.out.println("C'est à votre tour.");
 			} else {
+				attacker = enemy;
 				defender = hero;
 				System.out.println("C'est au tour de l'ennemi.");
 			}
 			// On affiche le menu
-			int choice = menu();
-			if (choice != 1) {
-				System.out.println("Oups... cette option n'est pas implémentée !");
-			} else {
-				if (this.turns%2 == 0) {
-					System.out.println("Vous attaquez l'ennemi.");
+			boolean promptMenu;
+			do {
+				promptMenu = false;
+				int choice = menu();
+				if (choice == 1) { // Attaquer
+					if (this.turns%2 == 0) {
+						System.out.println("Vous attaquez l'ennemi.");
+					} else {
+						System.out.println("L'ennemi vous attaque.");
+					}
+					// On inflige les dégâts
+					defender.receiveDamage(30);
+				} else if (choice == 2) { // Compétences
+					Skill skill = this.skillMenu(attacker);
+					if (skill == null) {
+						// Le joueur a choisir 'Retour'
+						promptMenu = true;
+					} else {
+						if (attacker.canCast(skill)) {
+							attacker.cast(skill, defender);
+							System.out.println(skill.getName() + "!");
+						} else {
+							System.out.println("Pas assez de MP !");
+						}
+					}
 				} else {
-					System.out.println("L'ennemi vous attaque.");
+					System.out.println("Oups... cette option n'est pas implémentée !");
+					promptMenu = true; // On souhaite afficher le menu à nouveau
+					
 				}
-				// On inflige les dégâts
-				defender.receiveDamage(50);
-				// On affiche un état des points de vie de tout le monde
-				System.out.println("Héros : " + hero.getStatus());
-				System.out.println("Ennemi : " + enemy.getStatus());
-			}
+			} while (promptMenu);
+			
 			this.turns++; // On met à jour le compteur de tours
 		}
 		
 		// Si on a quitté la boucle, c'est qu'un des deux combattants est mort
 		System.out.println("Le combat est terminé !");
+		this.printStatuses();
+	}
+	
+	public void printStatuses() {
+		System.out.println("Héros\t" + hero.getStatus());
+		System.out.println("Ennemi\t" + enemy.getStatus());
 	}
 }

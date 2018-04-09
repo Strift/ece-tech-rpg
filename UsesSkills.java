@@ -6,5 +6,9 @@ public interface UsesSkills {
 	public void cast(Skill skill, Character enemy);
 	
 	public void consumeMp(Skill skill);
+	
+	public int getNbSkills();
+	
+	public Skill getSkill(int indice);
 
 }
