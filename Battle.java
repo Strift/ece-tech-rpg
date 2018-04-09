@@ -80,7 +80,7 @@ public class Battle {
 			// On affiche le menu
 			boolean promptMenu;
 			do {
-				promptMenu = false;
+				promptMenu = false; // Cette variable vaudra true s'il faut ré-afficher le menu
 				int choice = menu();
 				if (choice == 1) { // Attaquer
 					if (this.turns%2 == 0) {
@@ -94,7 +94,7 @@ public class Battle {
 					Skill skill = this.skillMenu(attacker);
 					if (skill == null) {
 						// Le joueur a choisir 'Retour'
-						promptMenu = true;
+						promptMenu = true; // On souhaite afficher le menu à nouveau
 					} else {
 						if (attacker.canCast(skill)) {
 							attacker.cast(skill, defender);
@@ -108,7 +108,7 @@ public class Battle {
 					promptMenu = true; // On souhaite afficher le menu à nouveau
 					
 				}
-			} while (promptMenu);
+			} while (promptMenu); // Tant qu'il faut afficher le menu (i.e. le joueur n'a pas encore réalisé d'action)
 			
 			this.turns++; // On met à jour le compteur de tours
 		}
