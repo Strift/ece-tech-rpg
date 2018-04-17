@@ -7,6 +7,7 @@ public abstract class Character implements Killable, UsesSkills {
 	protected int mp;
 	protected Skill skills[];
 	protected int nbSkills;
+	protected boolean defense;
 	
 	public Character(int maxhp) {
 		this.maxHp = maxhp;
@@ -84,6 +85,10 @@ public abstract class Character implements Killable, UsesSkills {
 			return this.skills[indice];
 		}
 		return null;
+	}
+	
+	public void setDefense(boolean defense) {
+		this.defense = defense;
 	}
 
 }

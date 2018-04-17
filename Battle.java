@@ -75,8 +75,11 @@ public class Battle {
 			} else {
 				attacker = enemy;
 				defender = hero;
+				
 				System.out.println("C'est au tour de l'ennemi.");
 			}
+			// On réinitialise la défense de l'attaquant
+			attacker.setDefense(false);
 			// On affiche le menu
 			boolean promptMenu;
 			do {
@@ -103,10 +106,14 @@ public class Battle {
 							System.out.println("Pas assez de MP !");
 						}
 					}
-				} else {
-					System.out.println("Oups... cette option n'est pas implémentée !");
-					promptMenu = true; // On souhaite afficher le menu à nouveau
-					
+				} else { // Défense
+					if (this.turns%2 == 0) {
+						System.out.println("Vous vous préparez à vous défendre.");
+					} else {
+						System.out.println("L'ennemi se prépare à se défendre.");
+					}
+					// On active le "mode défense"
+					attacker.setDefense(true);
 				}
 			} while (promptMenu); // Tant qu'il faut afficher le menu (i.e. le joueur n'a pas encore réalisé d'action)
 			
